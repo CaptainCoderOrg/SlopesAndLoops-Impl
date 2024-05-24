@@ -41,4 +41,12 @@ public class PlayerMovementController : MonoBehaviour
         _rigidBody.AddForce(_movementInput * AccelerationFactor * boost * Time.fixedDeltaTime * -_groundedInfo.Left);
         _rigidBody.velocity = Vector2.ClampMagnitude(_rigidBody.velocity, MaxVelocity);
     }
+    public float FallThreshold = 1;
+    void LateUpdate()
+    {
+        if (_rigidBody.velocity.magnitude < FallThreshold)
+        {
+            _groundedInfo.Clear();
+        }
+    }
 }
