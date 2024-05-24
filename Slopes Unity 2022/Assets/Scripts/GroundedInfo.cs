@@ -12,8 +12,7 @@ public class GroundedInfo : MonoBehaviour
     public bool IsGrounded = true;
     public Vector2 Up { get; private set; } = Vector2.up;
     public Vector2 Left { get; private set; } = Vector2.left;
-
-    private float _movementDirection = -1;
+    public float Direction = -1;
     private Vector2 _previousUp = Vector2.up;
     private Collider2D _collider;
     private Rigidbody2D _rigidbody;
@@ -65,11 +64,7 @@ public class GroundedInfo : MonoBehaviour
             Debug.DrawLine(distance.pointA, distance.pointB, Color.red, 1);
             Vector3 toMove = distance.normal * distance.distance;
             transform.position = transform.position + toMove;
-            if (Math.Abs(_rigidbody.velocity.x) > 0.01)
-            {
-                _movementDirection = Mathf.Sign(_rigidbody.velocity.x);
-            }
-            _rigidbody.velocity = _rigidbody.velocity.magnitude * _movementDirection * -Left;
+            _rigidbody.velocity = _rigidbody.velocity.magnitude * Direction * -Left;
             return true;
         }
         return false;

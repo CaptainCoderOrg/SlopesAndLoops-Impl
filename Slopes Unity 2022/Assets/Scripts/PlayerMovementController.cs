@@ -14,12 +14,15 @@ public class PlayerMovementController : MonoBehaviour
     {
         _rigidBody = GetComponent<Rigidbody2D>();
         _groundedInfo = GetComponent<GroundedInfo>();
+        _groundedInfo.Direction = 1;
     }
 
     // Update is called once per frame
     void Update()
     {
         float horizontal = Input.GetAxis("Horizontal");
+        if (_groundedInfo.Direction == 1 && horizontal < 0 && _rigidBody.velocity.x < 0.01) { _groundedInfo.Direction = -1; }
+        else if (_groundedInfo.Direction == -1 && horizontal > 0 && _rigidBody.velocity.x > 0.01) { _groundedInfo.Direction = 1; }
         if (Mathf.Sign(_movementInput) != Mathf.Sign(horizontal))
         {
             _groundedInfo.Clear();
