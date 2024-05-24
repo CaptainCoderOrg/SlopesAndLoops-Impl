@@ -25,7 +25,7 @@ public class PlayerMovementController : MonoBehaviour
         else if (_groundedInfo.Direction == -1 && horizontal > 0 && _rigidBody.velocity.x > 0.01) { _groundedInfo.Direction = 1; }
         if (SignOrZero(_movementInput) != SignOrZero(horizontal))
         {
-            _groundedInfo.Clear();
+            _groundedInfo.ClearGround();
         }
         _movementInput = horizontal;
         transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.up, _groundedInfo.Up));
