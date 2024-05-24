@@ -17,6 +17,7 @@ public class GroundedInfo : MonoBehaviour
     {
         Up = Vector2.up;
         Left = Vector2.left;
+        transform.rotation = Quaternion.Euler(0, 0, 0);
     }
 
     private void Awake()
@@ -25,7 +26,6 @@ public class GroundedInfo : MonoBehaviour
         _collider = GetComponent<Collider2D>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (_rigidbody.velocity.magnitude < FallThreshold) { ClearGround(); }
@@ -45,10 +45,16 @@ public class GroundedInfo : MonoBehaviour
     private void SetPlayerUp(Vector2 newUp)
     {
         const float rotateThreshold = 80;
+        // Don't change the rotation on sharp corners (let's the player launch into the air)
         if (Up == newUp || Vector2.Angle(Up, newUp) > rotateThreshold) { return; }
         Up = newUp;
         Left = Quaternion.Euler(0, 0, 90) * Up;
+
+        // Take the current velocity and snap it to the new rotation
         _rigidbody.velocity = _rigidbody.velocity.magnitude * Direction * -Left;
+
+        // Update the player character's rotation to match its new "Up"
+        transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.up, Up));
     }
     
     private void SnapTo(Collider2D ground)

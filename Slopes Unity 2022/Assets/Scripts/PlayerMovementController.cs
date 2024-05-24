@@ -28,7 +28,6 @@ public class PlayerMovementController : MonoBehaviour
             _groundedInfo.ClearGround();
         }
         _movementInput = horizontal;
-        transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.up, _groundedInfo.Up));
     }
 
     void FixedUpdate()
