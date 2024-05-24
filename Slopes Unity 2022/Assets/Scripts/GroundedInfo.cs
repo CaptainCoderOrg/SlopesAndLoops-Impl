@@ -28,41 +28,39 @@ public class GroundedInfo : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_rigidbody.velocity.magnitude < FallThreshold)
-        {
-            ClearGround();
-        }
+        if (_rigidbody.velocity.magnitude < FallThreshold) { ClearGround(); }
         RaycastHit2D hit = Physics2D.Raycast(transform.position, -Up, _snapDistance, _groundLayer);
-        Debug.DrawRay(transform.position, -Up * hit.distance, Color.blue, .25f);
-        if (hit.collider is Collider2D ground)
+        IsGrounded = hit.collider != null;
+        SnapTo(hit.collider);
+        if (IsGrounded)
         {
-            ColliderDistance2D distance = ground.Distance(_collider);
-            SetPlayerUp(hit.normal);         
-            if (distance.isOverlapped) { IsGrounded = true; }
-            else { SnapToGround(distance); }
+            Debug.DrawLine(transform.position, hit.point, Color.blue, .25f);
+            SetPlayerUp(hit.normal);
         }
-        else
-        {
-            ClearGround();
-            IsGrounded = false;
-        }
+        // Debug.DrawRay(transform.position, -Up * hit.distance, Color.blue, .25f);
         Debug.DrawRay(transform.position, Up, Color.cyan, .25f);
         Debug.DrawRay(transform.position, _rigidbody.velocity, Color.green);
     }
 
     private void SetPlayerUp(Vector2 newUp)
     {
-        if (Up == newUp) { return; }
+        const float rotateThreshold = 80;
+        if (Up == newUp || Vector2.Angle(Up, newUp) > rotateThreshold) { return; }
         Up = newUp;
         Left = Quaternion.Euler(0, 0, 90) * Up;
         _rigidbody.velocity = _rigidbody.velocity.magnitude * Direction * -Left;
     }
-
-    private void SnapToGround(ColliderDistance2D distance)
+    
+    private void SnapTo(Collider2D ground)
     {
-        Debug.DrawLine(distance.pointA, distance.pointB, Color.red, 1);
-        Vector3 toMove = distance.normal * distance.distance;
-        transform.position = transform.position + toMove;
+        if (ground == null) { ClearGround(); }
+        else
+        {
+            ColliderDistance2D distance = ground.Distance(_collider);
+            if (distance.isOverlapped) { return; }
+            Debug.DrawLine(distance.pointA, distance.pointB, Color.red, 1);
+            transform.position += (Vector3)(distance.normal * distance.distance);
+        }
     }
 
 }
