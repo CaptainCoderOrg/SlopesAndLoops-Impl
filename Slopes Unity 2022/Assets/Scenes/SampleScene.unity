@@ -1239,12 +1239,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 686cf65205f26f4489b2b7ae4918605d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GroundLayer:
+  _groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  Distance: 0.75
+  _snapDistance: 1
   IsGrounded: 1
   Direction: -1
+  FallThreshold: 2
 --- !u!114 &840342682
 MonoBehaviour:
   m_ObjectHideFlags: 0

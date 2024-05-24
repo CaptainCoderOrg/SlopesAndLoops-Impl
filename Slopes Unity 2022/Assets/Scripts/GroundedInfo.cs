@@ -2,16 +2,18 @@ using UnityEngine;
 
 public class GroundedInfo : MonoBehaviour
 {
-    public LayerMask GroundLayer;
-    public float Distance = 1;
+    [SerializeField]
+    private LayerMask _groundLayer;
+    [SerializeField]
+    private float _snapDistance = 1;
     public bool IsGrounded = true;
     public Vector2 Up { get; private set; } = Vector2.up;
     public Vector2 Left { get; private set; } = Vector2.left;
     public float Direction = -1;
+    public float FallThreshold = 2;
     private Vector2 _previousUp = Vector2.up;
     private Collider2D _collider;
     private Rigidbody2D _rigidbody;
-
     public void Clear()
     {
         _previousUp = Vector2.up;
@@ -28,9 +30,13 @@ public class GroundedInfo : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (_rigidbody.velocity.magnitude < FallThreshold)
+        {
+            Clear();
+        }
         _previousUp = Up;
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, -Up, Distance, GroundLayer);
-        Debug.DrawRay(transform.position, -Up * hit.distance, Color.blue, 1);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, -Up, _snapDistance, _groundLayer);
+        Debug.DrawRay(transform.position, -Up * hit.distance, Color.blue, .25f);
         if (hit.collider != null)
         {
             Up = hit.normal;
@@ -43,7 +49,7 @@ public class GroundedInfo : MonoBehaviour
             Clear();
             IsGrounded = false;
         }
-        Debug.DrawRay(transform.position, Up, Color.cyan, 1);
+        Debug.DrawRay(transform.position, Up, Color.cyan, .25f);
         Debug.DrawRay(transform.position, _rigidbody.velocity, Color.green);
     }
 
