@@ -10,25 +10,28 @@ public class GroundedInfo : MonoBehaviour
     public float Distance = 1;
     public Collider2D PlayerCollider;
     public bool IsGrounded = true;
+    private Vector2 _previousUp = Vector2.up;
     public Vector2 Up = Vector2.up;
     public Vector2 Left = Vector2.left;
     private Rigidbody2D _rigidbody;
 
     public void Clear()
     {
+        _previousUp = Vector2.up;
         Up = Vector2.up;
         Left = Vector2.left;
     }
 
     private void Awake()
     {
+        _rigidbody = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        _previousUp = Up;
         RaycastHit2D hit = Physics2D.Raycast(transform.position, -Up, Distance, GroundLayer);
-        Debug.Log(hit.distance);
         Debug.DrawRay(transform.position, -Up * hit.distance, Color.blue, 1);
         if (hit.collider != null)
         {
@@ -39,8 +42,7 @@ public class GroundedInfo : MonoBehaviour
         }
         else
         {
-            Up = Vector2.up;
-            Left = Vector2.left;
+            Clear();
             IsGrounded = false;
         }
         Debug.DrawRay(transform.position, Up, Color.cyan, 1);
@@ -59,6 +61,7 @@ public class GroundedInfo : MonoBehaviour
             Debug.DrawLine(distance.pointA, distance.pointB, Color.red, 1);
             Vector3 toMove = distance.normal * distance.distance;
             transform.position = transform.position + toMove;
+            _rigidbody.velocity = Quaternion.Euler(0, 0, Vector2.SignedAngle(_previousUp, Up)) * _rigidbody.velocity;
             return true;
         }
         return false;
