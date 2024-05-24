@@ -21,8 +21,8 @@ public class PlayerMovementController : MonoBehaviour
     void Update()
     {
         float horizontal = Input.GetAxis("Horizontal");
-        if (_groundedInfo.Direction == 1 && horizontal < 0 && _rigidBody.velocity.x < 0.01) { _groundedInfo.Direction = -1; }
-        else if (_groundedInfo.Direction == -1 && horizontal > 0 && _rigidBody.velocity.x > 0.01) { _groundedInfo.Direction = 1; }
+        if (_groundedInfo.Direction == 1 && horizontal <= 0 && _rigidBody.velocity.x < 0.01) { _groundedInfo.Direction = -1; }
+        else if (_groundedInfo.Direction == -1 && horizontal >= 0 && _rigidBody.velocity.x > 0.01) { _groundedInfo.Direction = 1; }
         if (SignOrZero(_movementInput) != SignOrZero(horizontal))
         {
             _groundedInfo.ClearGround();
