@@ -17,13 +17,15 @@ public class PlayerMovementController : MonoBehaviour
         _groundedInfo.Direction = 1;
     }
 
+    int SignOrZero(float num) => num == 0 ? 0 : num > 0 ? 1 : -1;
+
     // Update is called once per frame
     void Update()
     {
         float horizontal = Input.GetAxis("Horizontal");
         if (_groundedInfo.Direction == 1 && horizontal < 0 && _rigidBody.velocity.x < 0.01) { _groundedInfo.Direction = -1; }
         else if (_groundedInfo.Direction == -1 && horizontal > 0 && _rigidBody.velocity.x > 0.01) { _groundedInfo.Direction = 1; }
-        if (Mathf.Sign(_movementInput) != Mathf.Sign(horizontal))
+        if (SignOrZero(_movementInput) != SignOrZero(horizontal))
         {
             _groundedInfo.Clear();
         }
