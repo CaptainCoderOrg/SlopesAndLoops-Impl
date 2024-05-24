@@ -18,18 +18,19 @@ public class PlayerMovementController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        _moveForce = Input.GetAxis("Horizontal");        
+        float horizontal = Input.GetAxis("Horizontal");
+        if (Mathf.Sign(_moveForce) != Mathf.Sign(horizontal))
+        {
+            GroundedInfo.Clear();
+        }
+        _moveForce = horizontal;
         Velocity = _rigidBody.velocity;
+        transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.up, GroundedInfo.Up));
     }
 
     void FixedUpdate()
     {
-        _rigidBody.AddForce(_moveForce * AccelerationFactor * Time.fixedDeltaTime * -Vector2.left);
+        _rigidBody.AddForce(_moveForce * AccelerationFactor * Time.fixedDeltaTime * -GroundedInfo.Left);
         _rigidBody.velocity = Vector2.ClampMagnitude(_rigidBody.velocity, MaxVelocity);
-        if (GroundedInfo.IsGrounded)
-        {
-            _rigidBody.AddTorque(-_moveForce * AccelerationFactor * Time.fixedDeltaTime);
-            _rigidBody.angularVelocity = Mathf.Clamp(_rigidBody.angularVelocity, -360*5, 360*5);
-        }
     }
 }
