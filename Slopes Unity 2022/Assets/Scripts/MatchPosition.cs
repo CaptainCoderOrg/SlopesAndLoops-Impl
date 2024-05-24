@@ -4,14 +4,12 @@ using UnityEngine;
 
 public class MatchPosition : MonoBehaviour
 {
+    public Vector3 Offset;
     public Transform Target;
 
     // Update is called once per frame
     void Update()
     {
-        Vector3 position = transform.position;
-        position.x = Target.position.x;
-        position.y = Target.position.y;
-        transform.position = position;
+        transform.position = Target.position + Offset;
     }
 }
