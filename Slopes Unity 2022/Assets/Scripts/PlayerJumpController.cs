@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerJumpController : MonoBehaviour
 {
-    public float JumpPower = 500;
+    public float JumpPower = 3500;
     private GroundedInfo _groundedInfo;
     private Rigidbody2D _rigidBody;
     private bool _isJumping;
@@ -26,6 +26,7 @@ public class PlayerJumpController : MonoBehaviour
         if (_isJumping)
         {
             _groundedInfo.IsGrounded = false;
+            gameObject.transform.position += (Vector3)(Vector2.up * _groundedInfo.SnapDistance);
             _rigidBody.AddForce(_groundedInfo.Up * JumpPower);
             _isJumping = false;
         }        

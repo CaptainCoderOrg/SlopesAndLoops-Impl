@@ -5,8 +5,9 @@ public class GroundedInfo : MonoBehaviour
 {
     [SerializeField]
     private LayerMask _groundLayer;
-    [SerializeField]
-    private float _snapDistance = 1;
+    [field: SerializeField]
+    public float SnapDistance { get; set; } = 0.25f;
+    private float _colliderHeight;
     public bool IsGrounded = true;
     public float FallThreshold = 2;
     public Vector2 Up { get; private set; } = Vector2.up;
@@ -26,12 +27,13 @@ public class GroundedInfo : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         _collider = GetComponent<Collider2D>();
+        _colliderHeight = _collider.bounds.extents.y;
     }
 
     void Update()
     {
-        if (_rigidbody.velocity.magnitude < FallThreshold) { ClearGround(); }
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, -Up, _snapDistance, _groundLayer);
+        if (_rigidbody.velocity.magnitude < FallThreshold || Up == Vector2.down) { ClearGround(); }
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, -Up, _colliderHeight + SnapDistance, _groundLayer);
         IsGrounded = hit.collider != null;
         SnapTo(hit.collider);
         if (IsGrounded)
