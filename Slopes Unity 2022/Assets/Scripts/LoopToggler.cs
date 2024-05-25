@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class LoopToggler : MonoBehaviour
 {
-    public EdgeCollider2D First;
-    public EdgeCollider2D Second;
+    public EdgeCollider2D Left;
+    public EdgeCollider2D Right;
 
-    public void OnTriggerEnter2D(Collider2D collider)
+    public void OnCollisionEnter2D(Collision2D collider)
     {
-        First.enabled = !First.enabled;
-        Second.enabled = !Second.enabled;
+        Left.enabled = !Left.enabled;
+        Right.enabled = !Right.enabled;
     }
 
 }
