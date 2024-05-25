@@ -7,10 +7,10 @@ public class PlayerMovementController : MonoBehaviour
     public float AccelerationFactor = 5000;
     private GroundedInfo _groundedInfo;
     private float _movementInput = 0;
-    private Rigidbody2D _rigidBody;
+    private Rigidbody2D _rigidbody;
     private void Awake()
     {
-        _rigidBody = GetComponent<Rigidbody2D>();
+        _rigidbody = GetComponent<Rigidbody2D>();
         _groundedInfo = GetComponent<GroundedInfo>();
     }
 
@@ -29,11 +29,11 @@ public class PlayerMovementController : MonoBehaviour
     void FixedUpdate()
     {
         float boost = 1;
-        if (_rigidBody.velocity.magnitude > BoostVelocity)
+        if (_rigidbody.velocity.magnitude > BoostVelocity)
         {
             boost = 2;
         }
-        _rigidBody.AddForce(_movementInput * AccelerationFactor * boost * Time.fixedDeltaTime * -_groundedInfo.Left);
-        _rigidBody.velocity = Vector2.ClampMagnitude(_rigidBody.velocity, MaxVelocity);
+        _rigidbody.AddForce(_movementInput * AccelerationFactor * boost * Time.fixedDeltaTime * -_groundedInfo.Left);
+        _rigidbody.velocity = Vector2.ClampMagnitude(_rigidbody.velocity, MaxVelocity);
     }
 }
