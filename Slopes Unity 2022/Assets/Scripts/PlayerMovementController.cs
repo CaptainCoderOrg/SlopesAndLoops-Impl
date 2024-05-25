@@ -5,6 +5,8 @@ public class PlayerMovementController : MonoBehaviour
     public float MaxVelocity = 24;
     public float BoostVelocity = 16;
     public float AccelerationFactor = 5000;
+    public float BoostFactor = 3;
+    public bool IsBoosting => _rigidbody.velocity.magnitude > BoostVelocity;
     private GroundedInfo _groundedInfo;
     private float _movementInput = 0;
     private Rigidbody2D _rigidbody;
@@ -28,12 +30,9 @@ public class PlayerMovementController : MonoBehaviour
 
     void FixedUpdate()
     {
-        float boost = 1;
-        if (_rigidbody.velocity.magnitude > BoostVelocity)
-        {
-            boost = 2;
-        }
-        _rigidbody.AddForce(_movementInput * AccelerationFactor * boost * Time.fixedDeltaTime * -_groundedInfo.Left);
+        float acceleration = AccelerationFactor * _movementInput;
+        acceleration *= IsBoosting ? BoostFactor : 1;
+        _rigidbody.AddForce(acceleration * Time.fixedDeltaTime * -_groundedInfo.Left);
         _rigidbody.velocity = Vector2.ClampMagnitude(_rigidbody.velocity, MaxVelocity);
     }
 }
