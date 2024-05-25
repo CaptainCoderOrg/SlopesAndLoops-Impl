@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class GroundedInfo : MonoBehaviour
 {
+    public bool ShowDebugInfo = true;
     [SerializeField]
     private LayerMask _groundLayer;
     [field: SerializeField]
@@ -36,14 +37,15 @@ public class GroundedInfo : MonoBehaviour
         RaycastHit2D hit = Physics2D.Raycast(transform.position, -Up, _colliderHeight + SnapDistance, _groundLayer);
         IsGrounded = hit.collider != null;
         SnapTo(hit.collider);
-        if (IsGrounded)
+        if (IsGrounded) { SetPlayerUp(hit.normal); }
+
+        // Draw Debug information in Scene View
+        if (ShowDebugInfo)
         {
-            Debug.DrawLine(transform.position, hit.point, Color.blue, .25f);
-            SetPlayerUp(hit.normal);
+            if (IsGrounded) { Debug.DrawLine(transform.position, hit.point, Color.blue, .25f); }
+            Debug.DrawRay(transform.position, Up, Color.cyan, .25f);
+            Debug.DrawRay(transform.position, _rigidbody.velocity * .5f, Color.green);
         }
-        // Debug.DrawRay(transform.position, -Up * hit.distance, Color.blue, .25f);
-        Debug.DrawRay(transform.position, Up, Color.cyan, .25f);
-        Debug.DrawRay(transform.position, _rigidbody.velocity, Color.green);
     }
 
     private void SetPlayerUp(Vector2 newUp)
@@ -68,8 +70,8 @@ public class GroundedInfo : MonoBehaviour
         {
             ColliderDistance2D distance = ground.Distance(_collider);
             if (distance.isOverlapped) { return; }
-            Debug.DrawLine(distance.pointA, distance.pointB, Color.red, 1);
             transform.position += (Vector3)(distance.normal * distance.distance);
+            if (ShowDebugInfo) { Debug.DrawLine(distance.pointA, distance.pointB, Color.red, 1); }
         }
     }
 
