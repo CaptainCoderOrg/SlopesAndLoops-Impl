@@ -987,7 +987,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Offset: {x: 0, y: 2, z: -10}
-  Target: {fileID: 1344384776}
+  Target: {fileID: 840342680}
 --- !u!1001 &545717652
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1372,7 +1372,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1249213a35d5ecd4ab841a0a73888f55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxVelocity: 20
+  MaxVelocity: 24
   BoostVelocity: 12
   AccelerationFactor: 4500
 --- !u!50 &840342677
@@ -1522,7 +1522,6 @@ MonoBehaviour:
     m_Bits: 64
   _snapDistance: 0.65
   IsGrounded: 0
-  Direction: -1
   FallThreshold: 2
 --- !u!114 &840342682
 MonoBehaviour:
@@ -3528,7 +3527,6 @@ MonoBehaviour:
     m_Bits: 64
   _snapDistance: 1.15
   IsGrounded: 0
-  Direction: -1
   FallThreshold: 2
 --- !u!114 &1344384779
 MonoBehaviour:

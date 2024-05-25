@@ -12,22 +12,18 @@ public class PlayerMovementController : MonoBehaviour
     {
         _rigidBody = GetComponent<Rigidbody2D>();
         _groundedInfo = GetComponent<GroundedInfo>();
-        _groundedInfo.Direction = 1;
     }
 
     int SignOrZero(float num) => num == 0 ? 0 : num > 0 ? 1 : -1;
+    private bool IsTurningOrStopping(float horizontal) => SignOrZero(_movementInput) != SignOrZero(horizontal);
 
     // Update is called once per frame
     void Update()
     {
         float horizontal = Input.GetAxis("Horizontal");
-        if (_groundedInfo.Direction == 1 && horizontal <= 0 && _rigidBody.velocity.x < 0.01) { _groundedInfo.Direction = -1; }
-        else if (_groundedInfo.Direction == -1 && horizontal >= 0 && _rigidBody.velocity.x > 0.01) { _groundedInfo.Direction = 1; }
-        if (SignOrZero(_movementInput) != SignOrZero(horizontal))
-        {
-            _groundedInfo.ClearGround();
-        }
+        if (IsTurningOrStopping(horizontal)) { _groundedInfo.ClearGround(); }
         _movementInput = horizontal;
+        _groundedInfo.UpdateMomentum(_movementInput);
     }
 
     void FixedUpdate()
