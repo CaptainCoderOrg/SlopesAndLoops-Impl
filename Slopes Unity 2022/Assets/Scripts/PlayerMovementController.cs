@@ -26,7 +26,7 @@ public class PlayerMovementController : MonoBehaviour
     {
         float acceleration = AccelerationFactor * _slopeInfo.TargetMomentum;
         acceleration *= IsBoosting ? BoostFactor : 1;
-        _rigidbody.AddForce(acceleration * Time.fixedDeltaTime * -_slopeInfo.Left);
+        _rigidbody.AddForce(acceleration * Time.fixedDeltaTime * _slopeInfo.Right);
         _rigidbody.velocity = Vector2.ClampMagnitude(_rigidbody.velocity, MaxVelocity);
     }
 }
