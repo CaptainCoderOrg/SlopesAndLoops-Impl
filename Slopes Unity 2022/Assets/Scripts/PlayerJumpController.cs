@@ -15,7 +15,7 @@ public class PlayerJumpController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump") && _slopeInfo.IsGrounded)
         {
             _isJumping = true;
         }
@@ -23,11 +23,11 @@ public class PlayerJumpController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (_isJumping && _slopeInfo.IsGrounded)
+        if (_isJumping)
         {
             _slopeInfo.IsGrounded = false;
-            _rigidBody.AddForce(_slopeInfo.Up * JumpPower);
             _isJumping = false;
+            _rigidBody.AddForce(_slopeInfo.Up * JumpPower);            
         }        
     }
 }

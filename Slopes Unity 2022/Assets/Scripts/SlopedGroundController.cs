@@ -45,6 +45,7 @@ public class SlopedGroundController : MonoBehaviour
         if (!IsUpsideDown) { SnapTo(hit.collider); }
         IsGrounded = hit.collider != null;        
         if (IsGrounded) { SetPlayerUp(hit.normal); }
+        else { ClearGround(); }
 
         // Draw Debug information in Scene View
         if (ShowDebugInfo)
