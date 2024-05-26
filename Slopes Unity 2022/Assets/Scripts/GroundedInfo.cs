@@ -38,7 +38,7 @@ public class GroundedInfo : MonoBehaviour
         _colliderHeight = _collider.bounds.extents.y;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (_rigidbody.velocity.magnitude < FallThreshold || Up == Vector2.down) { ClearGround(); }
         RaycastHit2D hit = Physics2D.Raycast(transform.position, -Up, _colliderHeight + SnapDistance, _groundLayer);
