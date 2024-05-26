@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerJumpController : MonoBehaviour
 {
-    public float JumpPower = 3500;
+    public float JumpPower = 4500;
     private GroundedInfo _groundedInfo;
     private Rigidbody2D _rigidBody;
     private bool _isJumping;
@@ -15,7 +15,7 @@ public class PlayerJumpController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Jump") && _groundedInfo.IsGrounded)
+        if (Input.GetButtonDown("Jump"))
         {
             _isJumping = true;
         }
@@ -23,10 +23,9 @@ public class PlayerJumpController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (_isJumping)
+        if (_isJumping && _groundedInfo.IsGrounded)
         {
             _groundedInfo.IsGrounded = false;
-            gameObject.transform.position += (Vector3)(Vector2.up * _groundedInfo.SnapDistance);
             _rigidBody.AddForce(_groundedInfo.Up * JumpPower);
             _isJumping = false;
         }        

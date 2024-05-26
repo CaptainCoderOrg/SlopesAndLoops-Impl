@@ -3074,6 +3074,7 @@ MonoBehaviour:
   <SnapDistance>k__BackingField: 0.25
   IsGrounded: 0
   FallThreshold: 2
+  TargetMomentum: -1
 --- !u!114 &840342682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3086,7 +3087,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffabc946dfe3a5d4e8e3a23ff8d78530, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  JumpPower: 3500
+  JumpPower: 4500
 --- !u!1001 &848422823
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7095,6 +7096,7 @@ MonoBehaviour:
   <SnapDistance>k__BackingField: 0.25
   IsGrounded: 0
   FallThreshold: 2
+  TargetMomentum: -1
 --- !u!114 &1344384779
 MonoBehaviour:
   m_ObjectHideFlags: 0
