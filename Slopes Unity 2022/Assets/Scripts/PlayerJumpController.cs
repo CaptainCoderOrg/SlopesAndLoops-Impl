@@ -3,13 +3,13 @@ using UnityEngine;
 public class PlayerJumpController : MonoBehaviour
 {
     public float JumpPower = 4500;
-    private GroundedInfo _groundedInfo;
+    private SlopedGroundController _slopeInfo;
     private Rigidbody2D _rigidBody;
     private bool _isJumping;
     private void Awake()
     {
         _rigidBody = GetComponent<Rigidbody2D>();
-        _groundedInfo = GetComponent<GroundedInfo>();
+        _slopeInfo = GetComponent<SlopedGroundController>();
     }
 
     // Update is called once per frame
@@ -23,10 +23,10 @@ public class PlayerJumpController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (_isJumping && _groundedInfo.IsGrounded)
+        if (_isJumping && _slopeInfo.IsGrounded)
         {
-            _groundedInfo.IsGrounded = false;
-            _rigidBody.AddForce(_groundedInfo.Up * JumpPower);
+            _slopeInfo.IsGrounded = false;
+            _rigidBody.AddForce(_slopeInfo.Up * JumpPower);
             _isJumping = false;
         }        
     }

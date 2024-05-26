@@ -7,26 +7,26 @@ public class PlayerMovementController : MonoBehaviour
     public float AccelerationFactor = 5000;
     public float BoostFactor = 3;
     public bool IsBoosting => _rigidbody.velocity.magnitude > BoostVelocity;
-    private GroundedInfo _groundedInfo;
+    private SlopedGroundController _slopeInfo;
     private Rigidbody2D _rigidbody;
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
-        _groundedInfo = GetComponent<GroundedInfo>();
+        _slopeInfo = GetComponent<SlopedGroundController>();
     }
 
     // Update is called once per frame
     void Update()
     {
         float horizontal = Input.GetAxis("Horizontal");
-        _groundedInfo.UpdateTargetMomentum(horizontal);
+        _slopeInfo.UpdateTargetMomentum(horizontal);
     }
 
     void FixedUpdate()
     {
-        float acceleration = AccelerationFactor * _groundedInfo.TargetMomentum;
+        float acceleration = AccelerationFactor * _slopeInfo.TargetMomentum;
         acceleration *= IsBoosting ? BoostFactor : 1;
-        _rigidbody.AddForce(acceleration * Time.fixedDeltaTime * -_groundedInfo.Left);
+        _rigidbody.AddForce(acceleration * Time.fixedDeltaTime * -_slopeInfo.Left);
         _rigidbody.velocity = Vector2.ClampMagnitude(_rigidbody.velocity, MaxVelocity);
     }
 }

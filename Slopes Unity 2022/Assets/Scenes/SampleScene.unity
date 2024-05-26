@@ -2900,8 +2900,8 @@ GameObject:
   - component: {fileID: 840342678}
   - component: {fileID: 840342677}
   - component: {fileID: 840342676}
-  - component: {fileID: 840342681}
   - component: {fileID: 840342682}
+  - component: {fileID: 840342683}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -3055,26 +3055,6 @@ Transform:
   - {fileID: 229397115}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &840342681
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 840342675}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 686cf65205f26f4489b2b7ae4918605d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowDebugInfo: 1
-  _groundLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  <SnapDistance>k__BackingField: 0.25
-  IsGrounded: 0
-  FallThreshold: 2
-  TargetMomentum: -1
 --- !u!114 &840342682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3088,6 +3068,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   JumpPower: 4500
+--- !u!114 &840342683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 840342675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bea08a630337974385d21fb092264c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowDebugInfo: 1
+  _groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  <SnapDistance>k__BackingField: 0.25
+  IsGrounded: 1
+  FallThreshold: 2
+  TargetMomentum: -1
 --- !u!1001 &848422823
 PrefabInstance:
   m_ObjectHideFlags: 0

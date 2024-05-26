@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class GroundedInfo : MonoBehaviour
+public class SlopedGroundController : MonoBehaviour
 {
     public bool ShowDebugInfo = true;
     [SerializeField]
