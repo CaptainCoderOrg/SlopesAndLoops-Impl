@@ -13,9 +13,16 @@ public class GroundedInfo : MonoBehaviour
     public float FallThreshold = 2;
     public Vector2 Up { get; private set; } = Vector2.up;
     public Vector2 Left { get; private set; } = Vector2.left;
-    private float _momentum = -1;
+    public float TargetMomentum = -1;
     private Collider2D _collider;
     private Rigidbody2D _rigidbody;
+
+    public void UpdateTargetMomentum(float targetMomentum)
+    {
+        bool isStoppingOrTurning = SignOrZero(TargetMomentum) != SignOrZero(targetMomentum);
+        if (isStoppingOrTurning) { ClearGround(); }
+        TargetMomentum = SignOrZero(targetMomentum);
+    }
 
     public void ClearGround()
     {
@@ -48,6 +55,7 @@ public class GroundedInfo : MonoBehaviour
         }
     }
 
+    int SignOrZero(float num) => num == 0 ? 0 : num > 0 ? 1 : -1;
     private void SetPlayerUp(Vector2 newUp)
     {
         const float rotateThreshold = 80;
@@ -56,8 +64,12 @@ public class GroundedInfo : MonoBehaviour
         Up = newUp;
         Left = Quaternion.Euler(0, 0, 90) * Up;
 
-        // Take the current velocity and snap it to the new rotation
-        _rigidbody.velocity = _rigidbody.velocity.magnitude * _momentum * -Left;
+        float momentum = SignOrZero(_rigidbody.velocity.x);
+        if (TargetMomentum == momentum)
+        {
+            // Take the current velocity and snap it to the new rotation
+            _rigidbody.velocity = _rigidbody.velocity.magnitude * TargetMomentum * -Left;
+        }
 
         // Update the player character's rotation to match its new "Up"
         transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.up, Up));
@@ -73,11 +85,5 @@ public class GroundedInfo : MonoBehaviour
             transform.position += (Vector3)(distance.normal * distance.distance);
             if (ShowDebugInfo) { Debug.DrawLine(distance.pointA, distance.pointB, Color.red, 1); }
         }
-    }
-
-    public void UpdateMomentum(float movementInput)
-    {
-        if (_momentum == 1 && movementInput <= 0 && _rigidbody.velocity.x < 0.01) { _momentum = -1; }
-        else if (_momentum == -1 && movementInput >= 0 && _rigidbody.velocity.x > 0.01) { _momentum = 1; }
     }
 }
