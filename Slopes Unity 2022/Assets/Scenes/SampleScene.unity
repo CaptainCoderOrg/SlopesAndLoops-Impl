@@ -3151,13 +3151,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bea08a630337974385d21fb092264c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShowDebugInfo: 1
   _groundLayer:
     serializedVersion: 2
     m_Bits: 64
+  ShowDebugInfo: 1
   <SnapDistance>k__BackingField: 0.15
   IsGrounded: 1
-  FallThreshold: 4
+  FallThreshold: 6
   TargetMomentum: -1
 --- !u!1001 &848422823
 PrefabInstance:

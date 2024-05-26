@@ -1,38 +1,46 @@
-using System;
 using UnityEngine;
 
 public class SlopedGroundController : MonoBehaviour
 {
-    public bool ShowDebugInfo = true;
+    ///<summary>Layers that are considered ground</summary>
     [SerializeField]
     private LayerMask _groundLayer;
+    ///<summary>Shows debug information in the Scene View</summary>
+    public bool ShowDebugInfo = true;
+    ///<summary>The maximum distance the player must be from the ground to be snapped</summary>
     [field: SerializeField]
-    public float SnapDistance { get; set; } = 0.25f;
-    private float _colliderHeight;
+    public float SnapDistance { get; set; } = 0.15f;
+    ///<summary>True if the player is touching the ground and false otherwise</summary>
     public bool IsGrounded = true;
-    public float FallThreshold = 2;
-    public float TargetMomentum = -1;
-    // The player is considered upside down if their "Up" is within 15 degrees of world down
+    ///<summary>The minimum velocity required to run on a vertical wall</summary>
+    public float FallThreshold = 4;
+    ///<summary>The desired direction of movement: -1 is left, 1 is right, 0 is no direction</summary>
+    public int TargetMomentum = -1;
+    ///<summary>The player is considered upside down if their "Up" is within 15 degrees of world down</summary>
     public bool IsUpsideDown => Vector2.Angle(Up, Vector2.down) < 15;
-    // The player is considered vertical if they are moving beyond a 90 degree angle 
+    ///<summary>The player is considered vertical if they are moving beyond a 90 degree angle </summary>
     public bool IsVertical => Vector2.Angle(Up, Vector2.down) <= 90;
+    ///<summary>The player's current "Up" direction</summary>
     public Vector2 Up { get; private set; } = Vector2.up;
+    ///<summary>The player's current "Right" direction (-90 degrees from Up)</summary>
     public Vector2 Right { get; private set; } = Vector2.right;
+    ///<summary>The distance from the center of the object to the bottom of the collider</summary>
+    private float _colliderExtents;
+    ///<summary>A cached instance of the current Collider</summary>
     private Collider2D _collider;
+    ///<summary>A cached instance of the current rigidbody</summary>
     private Rigidbody2D _rigidbody;
+
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         _collider = GetComponent<Collider2D>();
-        _colliderHeight = _collider.bounds.extents.y;
+        _colliderExtents = _collider.bounds.extents.y;
     }
 
     void FixedUpdate()
     {
-        // If the player is If the player is not moving fast enough, they fall off walls and steep slopes
-        if (IsVertical && _rigidbody.velocity.magnitude < FallThreshold) { ClearGround(); }
-
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, -Up, _colliderHeight + SnapDistance, _groundLayer);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, -Up, _colliderExtents + SnapDistance, _groundLayer);
         // Use raycast to determine if we are touching the ground
         IsGrounded = hit.collider != null;
 
@@ -43,6 +51,9 @@ public class SlopedGroundController : MonoBehaviour
         if (IsGrounded) { SetPlayerUp(hit.normal); }
         // Otherwise, clear the ground
         else { ClearGround(); }
+
+        // If the player is running up a wall (or upside down) and they are moving too slow, they fall.
+        if (IsGrounded && IsVertical && _rigidbody.velocity.magnitude < FallThreshold) { ClearGround(); }
 
         // Draw Debug information in Scene View
         if (ShowDebugInfo)
@@ -63,7 +74,7 @@ public class SlopedGroundController : MonoBehaviour
         TargetMomentum = SignOrZero(targetMomentum);
     }
 
-    public void ClearGround()
+    private void ClearGround()
     {
         // Reset the player's Up and Right
         Up = Vector2.up;
