@@ -40,10 +40,10 @@ public class GroundedInfo : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (_rigidbody.velocity.magnitude < FallThreshold || Up == Vector2.down) { ClearGround(); }
+        if (_rigidbody.velocity.magnitude < FallThreshold) { ClearGround(); }
         RaycastHit2D hit = Physics2D.Raycast(transform.position, -Up, _colliderHeight + SnapDistance, _groundLayer);
-        IsGrounded = hit.collider != null;
-        SnapTo(hit.collider);
+        if (!IsUpsideDown) { SnapTo(hit.collider); }
+        IsGrounded = hit.collider != null;        
         if (IsGrounded) { SetPlayerUp(hit.normal); }
 
         // Draw Debug information in Scene View
@@ -54,8 +54,8 @@ public class GroundedInfo : MonoBehaviour
             Debug.DrawRay(transform.position, _rigidbody.velocity * .5f, Color.green);
         }
     }
-
-    int SignOrZero(float num) => num == 0 ? 0 : num > 0 ? 1 : -1;
+    private bool IsUpsideDown => Vector2.Angle(Up, Vector2.down) < 15;
+    private int SignOrZero(float num) => num == 0 ? 0 : num > 0 ? 1 : -1;
     private void SetPlayerUp(Vector2 newUp)
     {
         const float rotateThreshold = 80;
@@ -78,6 +78,7 @@ public class GroundedInfo : MonoBehaviour
     private void SnapTo(Collider2D ground)
     {
         if (ground == null) { ClearGround(); }
+        else if (IsUpsideDown) { return; }
         else
         {
             ColliderDistance2D distance = ground.Distance(_collider);
