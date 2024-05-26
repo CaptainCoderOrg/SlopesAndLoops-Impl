@@ -1,21 +1,25 @@
 using UnityEngine;
 public class LoopController : MonoBehaviour
 {
-    public EdgeCollider2D LeftRamp;
-    public EdgeCollider2D RightRamp;
-    public EdgeCollider2D TopRamp;
+    public Transform FirstEntry;
+    public EdgeCollider2D FirstRamp;
+    public Transform SecondEntry;
+    public EdgeCollider2D SecondRamp;
 
     public void OnTriggerEnter2D(Collider2D collider)
     {
-        if (TopRamp.Distance(collider).normal.x < 0)
+        float firstDistance = Vector2.Distance(FirstEntry.position, collider.gameObject.transform.position);
+        float secondDistance = Vector2.Distance(SecondEntry.position, collider.gameObject.transform.position);
+        Debug.Log($"{firstDistance:#.##} vs {secondDistance:#.##}");
+        if (firstDistance < secondDistance)
         {
-            LeftRamp.enabled = true;
-            RightRamp.enabled = false;
+            FirstRamp.enabled = true;
+            SecondRamp.enabled = false;
         }
         else
         {
-            RightRamp.enabled = true;
-            LeftRamp.enabled = false;
+            SecondRamp.enabled = true;
+            FirstRamp.enabled = false;
         }
     }
 

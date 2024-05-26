@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6497208779615251912}
   - component: {fileID: 5259413945011591009}
   m_Layer: 6
-  m_Name: right-ramp
+  m_Name: LeftRamp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -84,6 +84,37 @@ EdgeCollider2D:
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
   m_UseAdjacentEndPoint: 0
+--- !u!1 &3605795415024620210
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2946730720454550257}
+  m_Layer: 0
+  m_Name: LeftRampEntry
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2946730720454550257
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3605795415024620210}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7787730608970340022}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3966286166866969449
 GameObject:
   m_ObjectHideFlags: 0
@@ -119,7 +150,9 @@ Transform:
   - {fileID: 2162290857529255261}
   - {fileID: 2051299285745507386}
   - {fileID: 450373805412970407}
+  - {fileID: 7814901403727122954}
   - {fileID: 6497208779615251912}
+  - {fileID: 2946730720454550257}
   - {fileID: 843008844813771687}
   - {fileID: 223128340048359723}
   m_Father: {fileID: 0}
@@ -208,9 +241,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eee735e099c5ab4193cb2091a5a5910, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LeftRamp: {fileID: 7461263873545080477}
-  RightRamp: {fileID: 5259413945011591009}
-  TopRamp: {fileID: 1933849934395715060}
+  FirstEntry: {fileID: 7814901403727122954}
+  FirstRamp: {fileID: 7461263873545080477}
+  SecondEntry: {fileID: 2946730720454550257}
+  SecondRamp: {fileID: 5259413945011591009}
 --- !u!1 &4375534352009423038
 GameObject:
   m_ObjectHideFlags: 0
@@ -556,7 +590,7 @@ GameObject:
   - component: {fileID: 450373805412970407}
   - component: {fileID: 7461263873545080477}
   m_Layer: 6
-  m_Name: left-ramp
+  m_Name: RightRamp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -629,3 +663,34 @@ EdgeCollider2D:
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
   m_UseAdjacentEndPoint: 0
+--- !u!1 &8881083017790884367
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7814901403727122954}
+  m_Layer: 0
+  m_Name: RightRampEntry
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7814901403727122954
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8881083017790884367}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 6, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7787730608970340022}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
