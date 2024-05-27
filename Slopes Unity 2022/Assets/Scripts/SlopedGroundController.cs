@@ -109,6 +109,10 @@ public class SlopedGroundController : MonoBehaviour
         if (distance.isOverlapped) { return; }
         // Otherwise, move the player to the collider
         transform.position += (Vector3)(distance.normal * distance.distance);
+        if (ShowDebugInfo)
+        {
+            Debug.DrawLine(distance.pointA, distance.pointB, Color.red, 1);
+        }
     }
 
     // Helper function for determining if a float is positive, negative, or zero
