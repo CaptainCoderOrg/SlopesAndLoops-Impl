@@ -27,8 +27,8 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      inkscape:zoom="21.798656"
-     inkscape:cx="172.99232"
-     inkscape:cy="105.12116"
+     inkscape:cx="164.18444"
+     inkscape:cy="121.26895"
      inkscape:window-width="1538"
      inkscape:window-height="1011"
      inkscape:window-x="2553"
@@ -496,10 +496,10 @@
      inkscape:export-xdpi="1228.8"
      inkscape:export-ydpi="1228.8"
      sodipodi:nodetypes="cccccccc" /><path
-     d="m 47.36042,26.987501 c 0.521947,0.537815 0.816146,1.363466 0.79375,2.116667 -0.02582,0.868231 -0.449575,1.785582 -1.058334,2.38125 -0.608758,0.595668 -2.116667,0.79375 -2.116667,0.79375 h -3.96875 v -0.529167 l 3.96875,-2e-6 c 2.64582,0 2.645834,-2.645832 2.645834,-2.645832 0,-2.64582 -2.645834,-2.645833 -2.645834,-2.645833 v -0.529166 c 0,0 1.744372,0.402093 2.381251,1.058333 z"
+     d="m 47.36042,26.987501 c 0.521947,0.537815 0.816146,1.363466 0.79375,2.116667 -0.02582,0.868231 -0.449575,1.785582 -1.058334,2.38125 -0.608758,0.595668 -2.116667,1.5875 -2.116667,1.5875 h -3.96875 l 0,-1.322917 3.96875,-2e-6 c 2.64582,0 2.645834,-2.645832 2.645834,-2.645832 0,-2.64582 -2.645834,-2.645833 -2.645834,-2.645833 v -0.529166 c 0,0 1.744372,0.402093 2.381251,1.058333 z"
      style="fill:#00ba00;fill-opacity:1;stroke-width:0.1;paint-order:markers fill stroke"
      id="path8"
-     inkscape:export-filename="Slopes Unity 2022\Assets\Sprites\loop-right.png"
+     inkscape:export-filename="Slopes Unity 2022\Assets\Sprites\thin-loop-left.png"
      inkscape:export-xdpi="1228.8"
      inkscape:export-ydpi="1228.8"
      sodipodi:nodetypes="sszcccccccs" /><path
