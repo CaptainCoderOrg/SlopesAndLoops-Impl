@@ -8,6 +8,7 @@ public class LoopController : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D collider)
     {
+        if (collider.GetComponent<PlayerMovementController>() == null) { return; }
         float firstDistance = Vector2.Distance(FirstEntry.position, collider.gameObject.transform.position);
         float secondDistance = Vector2.Distance(SecondEntry.position, collider.gameObject.transform.position);
         Debug.Log($"{firstDistance:#.##} vs {secondDistance:#.##}");
