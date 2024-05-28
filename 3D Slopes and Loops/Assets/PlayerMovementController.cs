@@ -8,6 +8,7 @@ public class PlayerMovementController : MonoBehaviour
     private Rigidbody _rigidbody;
     private float _movementInput;
     private float _rotationInput;
+    private float _strafeInput;
     private SlopedGroundController _slopeInfo;
 
     void Awake()
@@ -20,15 +21,26 @@ public class PlayerMovementController : MonoBehaviour
     void Update()
     {
         _movementInput = Input.GetAxis("Vertical");
-        _rotationInput = Input.GetAxis("Horizontal");
-        Vector3 rotation = transform.rotation.eulerAngles;
-        rotation.y += _rotationInput * RotationSpeed * Time.deltaTime;
-        transform.rotation = Quaternion.Euler(rotation);
+        _strafeInput = 0;
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            _strafeInput = Input.GetAxis("Horizontal");
+        }
+        else
+        {
+            _rotationInput = Input.GetAxis("Horizontal");
+            Vector3 rotation = transform.rotation.eulerAngles;
+            rotation.y += _rotationInput * RotationSpeed * Time.deltaTime;
+            transform.rotation = Quaternion.Euler(rotation);
+            _slopeInfo.CameraForward = transform.forward;
+        }
+        
     }
 
     void FixedUpdate()
     {
         _rigidbody.AddForce(_movementInput * AccelerationFactor * Time.fixedDeltaTime * _slopeInfo.Forward);
+        _rigidbody.AddForce(_strafeInput * AccelerationFactor * Time.fixedDeltaTime * _slopeInfo.Right);
         _rigidbody.velocity = Vector3.ClampMagnitude(_rigidbody.velocity, MaximumVelocity);
     }
 }
