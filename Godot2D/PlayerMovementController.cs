@@ -7,9 +7,7 @@ public partial class PlayerMovementController : Node
 	[Export]
 	public float AccelerationFactor { get; set; }
 	[Export]
-	private RigidBody2D _rigidbody;
-	[Export]
-	private SlopeGround _groundInfo;
+	private SlopedGroundRigidBody2D _groundInfo;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -19,12 +17,8 @@ public partial class PlayerMovementController : Node
 	public override void _Process(double delta)
 	{
 		_movementInput = Input.GetAxis("ui_left", "ui_right");
-	}
-
-    public override void _PhysicsProcess(double delta)
-    {
-        base._PhysicsProcess(delta);
+		_groundInfo.UpdateTargetMomentum(_movementInput);
 		Vector2 force = _movementInput * AccelerationFactor * Multiplier * (float)delta * _groundInfo.Right;
-		_rigidbody.ApplyForce(force);
-    }
+		_groundInfo.ApplyForce(force);
+	}
 }
