@@ -1,0 +1,135 @@
+[gd_scene load_steps=8 format=3 uid="uid://dv4jn855as3p4"]
+
+[ext_resource type="Texture2D" uid="uid://b12bg728440yu" path="res://Sprites/Circle.png" id="1_353pt"]
+[ext_resource type="Script" path="res://PlayerMovementController.cs" id="1_ovor0"]
+[ext_resource type="Script" path="res://SlopeGround.cs" id="2_7pb6q"]
+[ext_resource type="Texture2D" uid="uid://bmxnkrejfn1uo" path="res://Sprites/flat.png" id="2_8km42"]
+[ext_resource type="Texture2D" uid="uid://crd6umslo62a3" path="res://Sprites/slope3.png" id="4_t7rtj"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vr036"]
+radius = 36.6742
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_scc5q"]
+size = Vector2(192, 63)
+
+[node name="Node2D" type="Node2D"]
+position = Vector2(16, 72)
+
+[node name="Player" type="Node" parent="."]
+
+[node name="PlayerMovementController" type="Node" parent="Player" node_paths=PackedStringArray("_rigidbody", "_groundInfo")]
+script = ExtResource("1_ovor0")
+AccelerationFactor = 1000.0
+_rigidbody = NodePath("../RigidBody2D")
+_groundInfo = NodePath("../RigidBody2D/Circle/SlopeGroundController (Node2D)")
+
+[node name="RigidBody2D" type="RigidBody2D" parent="Player"]
+position = Vector2(588, 240)
+lock_rotation = true
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/RigidBody2D"]
+shape = SubResource("CircleShape2D_vr036")
+
+[node name="Circle" type="Sprite2D" parent="Player/RigidBody2D"]
+texture = ExtResource("1_353pt")
+
+[node name="RayCast Target" type="Node2D" parent="Player/RigidBody2D/Circle"]
+position = Vector2(0, 46)
+
+[node name="SlopeGroundController (Node2D)" type="Node2D" parent="Player/RigidBody2D/Circle" node_paths=PackedStringArray("_rigidbody", "_playerCenter", "_raycastTarget")]
+position = Vector2(-588, -237)
+script = ExtResource("2_7pb6q")
+_rigidbody = NodePath("../..")
+_playerCenter = NodePath("..")
+_raycastTarget = NodePath("../RayCast Target")
+
+[node name="StaticBody2D4" type="StaticBody2D" parent="."]
+position = Vector2(840, 240)
+rotation = 1.5708
+metadata/_edit_group_ = true
+
+[node name="Flat" type="Sprite2D" parent="StaticBody2D4"]
+texture = ExtResource("2_8km42")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D4"]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_scc5q")
+
+[node name="StaticBody2D5" type="StaticBody2D" parent="."]
+position = Vector2(328, 240)
+rotation = 1.5708
+metadata/_edit_group_ = true
+
+[node name="Flat" type="Sprite2D" parent="StaticBody2D5"]
+texture = ExtResource("2_8km42")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D5"]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_scc5q")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+position = Vector2(776, 431)
+metadata/_edit_group_ = true
+
+[node name="Slope3" type="Sprite2D" parent="StaticBody2D2"]
+texture = ExtResource("4_t7rtj")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D2"]
+polygon = PackedVector2Array(8, -16, 24, -48, 32, -96, 96, -96, 96, 96, -96, 96, -96, 32, -48, 24, -16, 8)
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="."]
+position = Vector2(392, 431)
+scale = Vector2(-1, 1)
+metadata/_edit_group_ = true
+
+[node name="Slope3" type="Sprite2D" parent="StaticBody2D3"]
+texture = ExtResource("4_t7rtj")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D3"]
+polygon = PackedVector2Array(8, -16, 24, -48, 32, -96, 96, -96, 96, 96, -96, 96, -96, 32, -48, 24, -16, 8)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(584, 495)
+metadata/_edit_group_ = true
+
+[node name="Flat" type="Sprite2D" parent="StaticBody2D"]
+texture = ExtResource("2_8km42")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_scc5q")
+
+[node name="Node2D" type="Node2D" parent="."]
+position = Vector2(-8, 392)
+scale = Vector2(1, -1)
+
+[node name="StaticBody2D6" type="StaticBody2D" parent="Node2D"]
+position = Vector2(784, 344)
+
+[node name="Slope3" type="Sprite2D" parent="Node2D/StaticBody2D6"]
+texture = ExtResource("4_t7rtj")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Node2D/StaticBody2D6"]
+polygon = PackedVector2Array(8, -16, 24, -48, 32, -96, 96, -96, 96, 96, -96, 96, -96, 32, -48, 24, -16, 8)
+
+[node name="StaticBody2D7" type="StaticBody2D" parent="Node2D"]
+position = Vector2(400, 344)
+rotation = 3.14159
+scale = Vector2(1, -1)
+
+[node name="Slope3" type="Sprite2D" parent="Node2D/StaticBody2D7"]
+texture = ExtResource("4_t7rtj")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Node2D/StaticBody2D7"]
+polygon = PackedVector2Array(8, -16, 24, -48, 32, -96, 96, -96, 96, 96, -96, 96, -96, 32, -48, 24, -16, 8)
+
+[node name="StaticBody2D8" type="StaticBody2D" parent="Node2D"]
+position = Vector2(592, 408)
+
+[node name="Flat" type="Sprite2D" parent="Node2D/StaticBody2D8"]
+texture = ExtResource("2_8km42")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/StaticBody2D8"]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_scc5q")
