@@ -1,5 +1,3 @@
-using System.Diagnostics;
-using System.Text;
 using Godot;
 
 public partial class SlopedGroundRigidBody2D : RigidBody2D
@@ -7,55 +5,72 @@ public partial class SlopedGroundRigidBody2D : RigidBody2D
     public int TargetMomentum = -1;
     public const float _90Degrees = 1.5708f;
     [Export]
-    private Node2D _playerCenter;
-    [Export]
     private Node2D _raycastTarget;
-    public Vector2 Up { get; private set; }
-    public Vector2 Right { get; private set; }
-
+    public Vector2 Up { get; private set; } = Vector2.Up;
+    public Vector2 Right { get; private set; } = Vector2.Right;
     public Vector2 _unappliedForce = Vector2.Zero;
+    [Export]
+    public Node2D Collider;
+    public bool IsGrounded { get; set; }
 
-    public void AddForce(Vector2 force)
-    {
-        _unappliedForce += force;
-    }
-
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
-    public override void _Process(double delta)
-    {
-    }
     public override void _IntegrateForces(PhysicsDirectBodyState2D state)
     {
-        state.LinearVelocity += _unappliedForce;
-        _unappliedForce = Vector2.Zero;
-        // var spaceState = GetWorld2D().DirectSpaceState;
-        var playerWorldSpaceState = _playerCenter.GetWorld2D().DirectSpaceState;
-        Vector2 center = _playerCenter.GlobalPosition;
+        var playerWorldSpaceState = Collider.GetWorld2D().DirectSpaceState;
+        Vector2 center = Collider.GlobalPosition;
         Vector2 bottom = _raycastTarget.GlobalPosition;
-        Up = (center - bottom).Normalized();
-        Right = Up.Rotated(_90Degrees).Normalized();
         var query = PhysicsRayQueryParameters2D.Create(center, bottom);
         var result = playerWorldSpaceState.IntersectRay(query);
-        if (result.Count > 0)
+        IsGrounded = result.Count > 0;
+        if (IsGrounded)
         {
             Vector2 normal = (Vector2)result["normal"];
-            float angle = -normal.AngleTo(Vector2.Up);
-            _playerCenter.Rotation = angle;
-
-            int momentum = Mathf.Sign(state.LinearVelocity.X);
-            if (momentum != 0 && TargetMomentum == momentum)
-            {
-                float magnitude = state.LinearVelocity.Length();
-                state.LinearVelocity = momentum * magnitude * Right;
-                GD.Print($"LinearVelocity: {state.LinearVelocity} | Magnitude: {magnitude} | Length: {state.LinearVelocity.Length()}");
-            }
+            SetUp(normal, state);
+            SnapToGround(result);
         }
         else
         {
-            _playerCenter.Rotation = 0;
+            ClearGround();
         }
         base._IntegrateForces(state);
         QueueRedraw();
+    }
+
+    private void SetUp(Vector2 newUp, PhysicsDirectBodyState2D state)
+    {
+        float angle = -newUp.AngleTo(Vector2.Up);
+        Collider.Rotation = angle;
+        Up = newUp;
+        Right = Up.Rotated(_90Degrees).Normalized();
+
+        int momentum = Mathf.Sign(state.LinearVelocity.X);
+        if (momentum != 0 && TargetMomentum == momentum)
+        {
+            float magnitude = state.LinearVelocity.Length();
+            state.LinearVelocity = momentum * magnitude * Right;
+            GD.Print($"LinearVelocity: {state.LinearVelocity} | Magnitude: {magnitude} | Length: {state.LinearVelocity.Length()}");
+        }
+    }
+
+    private void SnapToGround(Godot.Collections.Dictionary castResult)
+    {
+        Vector2 groundEdge = (Vector2)castResult["position"];
+        var query = PhysicsRayQueryParameters2D.Create(groundEdge, Collider.GlobalPosition);
+        var playerWorldSpaceState = Collider.GetWorld2D().DirectSpaceState;
+        var result = playerWorldSpaceState.IntersectRay(query);
+        if (result.Count > 0)
+        {
+            GD.Print("Cast?");
+            GD.Print(result["collider"]);
+            Vector2 playerEdge = (Vector2)result["position"];
+            // Collider.Position += playerEdge - groundEdge;
+        }
+    }
+
+    private void ClearGround()
+    {
+        Up = Vector2.Up;
+        Right = Vector2.Right;
+        Collider.Rotation = 0;
     }
 
     public override void _Draw()

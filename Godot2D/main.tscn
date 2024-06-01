@@ -29,25 +29,27 @@ script = ExtResource("1_ovor0")
 AccelerationFactor = 300.0
 _groundInfo = NodePath("../RigidBody2D")
 
-[node name="RigidBody2D" type="RigidBody2D" parent="Player" node_paths=PackedStringArray("_playerCenter", "_raycastTarget")]
+[node name="RigidBody2D" type="RigidBody2D" parent="Player" node_paths=PackedStringArray("_raycastTarget", "Collider")]
 position = Vector2(600, 496)
 physics_material_override = SubResource("PhysicsMaterial_u2hk2")
 lock_rotation = true
 script = ExtResource("2_tkalr")
-_playerCenter = NodePath("Circle")
-_raycastTarget = NodePath("Circle/RayCast Target")
+_raycastTarget = NodePath("CollisionShape2D/Circle/RayCast Target")
+Collider = NodePath("CollisionShape2D")
 metadata/_edit_group_ = true
 
 [node name="Camera2D" type="Camera2D" parent="Player/RigidBody2D"]
+position = Vector2(0, -168)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player/RigidBody2D"]
 shape = SubResource("CircleShape2D_vr036")
+metadata/_edit_group_ = true
 
-[node name="Circle" type="Sprite2D" parent="Player/RigidBody2D"]
+[node name="Circle" type="Sprite2D" parent="Player/RigidBody2D/CollisionShape2D"]
 texture = ExtResource("1_353pt")
 
-[node name="RayCast Target" type="Node2D" parent="Player/RigidBody2D/Circle"]
-position = Vector2(0, 120)
+[node name="RayCast Target" type="Node2D" parent="Player/RigidBody2D/CollisionShape2D/Circle"]
+position = Vector2(0, 48)
 
 [node name="Environment" type="Node2D" parent="."]
 
